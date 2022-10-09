@@ -1,5 +1,5 @@
-.clockText {
-  font-size: 10em;
-  font-family: "Rubik Mono One", sans-serif;
-  color: #c8d6e5;
+#clock {
+	font-size: 10em;
+	font-family: "Rubik Mono One", sans-serif;
+	color: #f0932b;
 }

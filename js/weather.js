@@ -1,64 +1,59 @@
-const weather = document.querySelector(".jsWeather"),
-  weatherText = document.querySelector(".weatherText");
-// weatherIcon = document.querySelector(".weatherIcon");
-const COORDS = "coords";
 const API_KEY = "eec5e330f5ade4183c386d6a8b0f65d2";
+const WEATHER_INFO = "weatherInfo";
 
 function getWeather(lat, lon) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (json) {
-      const temperature = json.main.temp;
-      const place = json.name;
-      const icon = `http://openweathermap.org/img/w/${json.weather[0].icon}.png`;
-      const weatherIcon = document.createElement("img");
+	const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+	fetch(url)
+		.then((response) => response.json())
+		.then((data) => {
+			const weatherIcon = document.querySelector(
+				"#weather img:first-child"
+			);
+			const weatherSpan = document.querySelectorAll("#weather span");
+			const icon = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+			const temp = Math.floor(data.main.temp);
 
-      document.querySelector(".weatherIcon").src = icon;
-      weatherText.innerText = `${temperature} @ ${place}`;
-    });
+			weatherIcon.src = icon;
+			weatherSpan[0].innerText = `${data.weather[0].main} / ${temp}℃`;
+			weatherSpan[1].innerText = data.name;
+		});
 }
 
-function saveCoords(coordsObj) {
-  localStorage.setItem(COORDS, JSON.stringify(coordsObj));
+function onGeoError() {
+	alert("Can't find you. No weather for you.");
 }
 
-function handleGeoSucces(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
-  const coordsObj = {
-    latitude,
-    longitude,
-  };
-  console.log(position);
-  saveCoords(coordsObj);
-  getWeather(latitude, longitude);
+function onGeoOk(position) {
+	const latitude = position.coords.latitude;
+	const longitude = position.coords.longitude;
+	const weatherPositionObj = {
+		latitude,
+		longitude,
+	};
+	console.log("onGeoOk.weatherPositionObj = ", weatherPositionObj);
+	savaWeatherInfo(weatherPositionObj);
+	getWeather(latitude, longitude);
 }
 
-function handleGeoError() {
-  console.log("Cna access geo location");
+function savaWeatherInfo(positionObj) {
+	localStorage.setItem(WEATHER_INFO, JSON.stringify(positionObj));
 }
 
-function askForCoords() {
-  navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
+function askForWeather() {
+	navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
 }
 
-function loadCoords() {
-  const loadedCoords = localStorage.getItem(COORDS);
-
-  if (loadedCoords === null) {
-    askForCoords();
-  } else {
-    const parsedCoords = JSON.parse(loadedCoords);
-    getWeather(parsedCoords.latitude, parsedCoords.longitude);
-  }
+function loadWeather() {
+	const loadedWeather = localStorage.getItem(WEATHER_INFO);
+	if (loadedWeather === null) {
+		askForWeather();
+	} else {
+		const parsedWeatherPosition = JSON.parse(loadedWeather);
+		getWeather(
+			parsedWeatherPosition.latitude,
+			parsedWeatherPosition.longitude
+		);
+	}
 }
 
-function init() {
-  loadCoords();
-}
-
-init();
+loadWeather();

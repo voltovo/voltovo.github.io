@@ -1,20 +1,13 @@
-const clock = document.querySelector(".jsClock .clockText");
+const clock = document.querySelector("#clock");
 
-function getTime() {
-  const date = new Date();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  clock.innerHTML = `${hours > 9 ? hours : `0${hours}`}
-    :${minutes > 9 ? minutes : `0${minutes}`}
-    :${seconds > 9 ? seconds : `0${seconds}`}`;
-  return;
+function getClock() {
+	const date = new Date();
+	let hours = String(date.getHours()).padStart(2, "0");
+	let minutes = String(date.getMinutes()).padStart(2, "0");
+	let seconds = String(date.getSeconds()).padStart(2, "0");
+
+	clock.innerText = `${hours}:${minutes}:${seconds}`;
 }
 
-function init() {
-  getTime();
-  setInterval(getTime, 1000);
-  return;
-}
-
-init();
+getClock();
+setInterval(getClock, 1000);

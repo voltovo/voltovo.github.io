@@ -1,29 +1,29 @@
 .center {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
 .center .nameInput {
-  appearance: none;
-  background: none;
-  border: none;
-  color: #f0932b;
-  font-size: 36px;
-  border-bottom: 3px solid rgba(255, 255, 255, 0.8);
-  margin-bottom: 20px;
+	appearance: none;
+	background: none;
+	border: none;
+	color: #f0932b;
+	font-size: 36px;
+	border-bottom: 3px solid rgba(255, 255, 255, 0.8);
+	margin-bottom: 20px;
 }
 .center .nameInput::placeholder {
-  color: #f0932b;
-  opacity: 0.7;
+	color: #f0932b;
+	opacity: 0.7;
 }
 
 .center .nameInput:focus,
 .center .nameInput:active {
-  outline: none;
+	outline: none;
 }
 
 .center .nameText {
-  font-size: 36px;
-  margin-bottom: 20px;
+	font-size: 36px;
+	margin-bottom: 20px;
 }

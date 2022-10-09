@@ -1,8 +1,8 @@
-.jsWeather {
-  position: absolute;
-  font-size: 20px;
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  color: #feca57;
+#weather {
+	position: absolute;
+	font-size: 20px;
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	color: #feca57;
 }
